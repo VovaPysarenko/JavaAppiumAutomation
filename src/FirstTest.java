@@ -78,8 +78,7 @@ public class FirstTest {
     }
 
     @Test
-    public void testCompareArticleTitle()
-    {
+    public void testCompareArticleTitle() {
 
         waitForElementAndClick(
                 By.xpath("//*[contains(@text,'Search Wikipedia')]"),
@@ -111,9 +110,25 @@ public class FirstTest {
                 "Java (programming language)",
                 article_title
         );
-
-
     }
+    @Test
+    public void testTextIsPresent() {
+
+        waitForElementAndClick(
+                By.xpath("//*[contains(@text,'Search Wikipedia')]"),
+                "Cannot find text Search Wikipedia",
+                5
+        );
+
+        assertElementHasText(
+                By.id("org.wikipedia:id/search_src_text"),
+                "Search…",
+                "Cannot find text",
+                5
+        );
+    }
+
+
 
     private WebElement waitForElementPresent(By by, String error_message, long timeoutInSeconds) {
         WebDriverWait wait = new WebDriverWait(driver, timeoutInSeconds);
@@ -131,14 +146,14 @@ public class FirstTest {
 
         WebElement element = waitForElementPresent(by, error_message, timeoutInSeconds);
         element.click();
-        return  element;
+        return element;
     }
 
     private WebElement waitForElementAndSendKeys(By by, String value, String error_message, long timeoutInSeconds) {
 
         WebElement element = waitForElementPresent(by, error_message, timeoutInSeconds);
         element.sendKeys(value);
-        return  element;
+        return element;
     }
 
     private boolean waitForElementNotPresent(By by, String error_message, long timeoutInSeconds) {
@@ -147,6 +162,14 @@ public class FirstTest {
         wait.withMessage(error_message + "\n");
         return wait.until(
                 ExpectedConditions.invisibilityOfElementLocated(by)
+        );
+    }
+
+    private boolean assertElementHasText(By by, String text, String error_message, long timeoutInSeconds) {
+        WebDriverWait wait = new WebDriverWait(driver, timeoutInSeconds);
+        wait.withMessage(error_message + "\n");
+        return wait.until(
+                ExpectedConditions.textToBe(by, text)
         );
     }
 
