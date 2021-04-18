@@ -127,10 +127,31 @@ public class FirstTest {
                 5
         );
     }
+    @Test
+    public void testSearchText(){
+        waitForElementAndClick(
+                By.id("org.wikipedia:id/search_container"),
+                "Cannot find text Search Wikipedia",
+                5
+        );
+        waitForElementAndSendKeys(
+                By.xpath(".//*[contains(@text,'Search…')]"),
+                "Swift",
+                "Cannot find search input",
+                5
+        );
 
 
+        assertElementHasText(
+                By.xpath("//*[contains(@text, 'Swift') and contains(@text, 'Swift (programming language)')]"),
+                "Swift (programming language)",
+                "Cannot find text",
+                15
+        );
+    }
 
     private WebElement waitForElementPresent(By by, String error_message, long timeoutInSeconds) {
+
         WebDriverWait wait = new WebDriverWait(driver, timeoutInSeconds);
         wait.withMessage(error_message + "\n");
         return wait.until(
@@ -165,12 +186,16 @@ public class FirstTest {
         );
     }
 
-    private boolean assertElementHasText(By by, String text, String error_message, long timeoutInSeconds) {
-        WebDriverWait wait = new WebDriverWait(driver, timeoutInSeconds);
-        wait.withMessage(error_message + "\n");
-        return wait.until(
-                ExpectedConditions.textToBe(by, text)
-        );
-    }
+    private WebElement assertElementHasText(By by, String text, String error_message, long timeoutInSeconds)
+    {
+        WebElement element = waitForElementPresent(by, error_message, timeoutInSeconds);
 
+        String article_title = element.getAttribute("text");
+        Assert.assertEquals(
+                error_message,
+                text,
+                article_title
+        );
+        return element;
+    }
 }
