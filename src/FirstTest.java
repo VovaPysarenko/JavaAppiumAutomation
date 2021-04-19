@@ -11,6 +11,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.net.URL;
+import java.util.Collection;
+import java.util.Locale;
 
 public class FirstTest {
 
@@ -148,6 +150,44 @@ public class FirstTest {
                 "Cannot find text",
                 15
         );
+    }
+    @Test
+    public void testTextInResultOfSearch() {
+        waitForElementAndClick(
+                By.xpath("//*[contains(@text, 'Search Wikipedia')]"),
+                "Can`t find search Wikipedia input",
+                5
+        );
+
+        waitForElementAndSendKeys(
+                By.xpath("//*[contains(@text, 'Search…')]"),
+                "Java",
+                "Can`t find search input",
+                10
+        );
+
+        waitForElementPresent(
+                By.xpath("//android.widget.TextView[contains(@text, 'Java')]"),
+                "Element Not Present",
+                5
+        );
+
+        Collection<WebElement> collection = (Collection<WebElement>) driver.findElements(By.xpath("//android.widget.TextView[contains(@text, 'Java')]"));
+
+        for (WebElement value : collection) {
+            String element = value.getText();
+            String text = "JAVA";
+            if (element.toUpperCase().contains(text)) {
+                System.out.println("Success");
+            } else {
+                Assert.assertEquals(
+                        "Text is not contains 'Java'",
+                        text,
+                        element
+                );
+            }
+        }
+
     }
 
     private WebElement waitForElementPresent(By by, String error_message, long timeoutInSeconds) {
