@@ -329,19 +329,50 @@ public class FirstTest {
                 "Cannot find search input",
                 5
         );
-        String search_result_loator = "//*[@resource-id='org.wikipedia:id/search_results_list']/*[@resource-id='org.wikipedia:id/page_list_item_container']";
+        String search_result_locator = "//*[@resource-id='org.wikipedia:id/search_results_list']/*[@resource-id='org.wikipedia:id/page_list_item_container']";
         waitForElementPresent(
-                By.xpath(search_result_loator),
+                By.xpath(search_result_locator),
                 "Cannot find the request" + search_line,
                 30
         );
         int amount_search_of_result = getAmountOfElements(
-                By.xpath(search_result_loator)
+                By.xpath(search_result_locator)
         );
         Assert.assertTrue(
                 "We  found too few results",
                 amount_search_of_result > 0
         );
+
+
+    }
+    @Test
+    public void testAmountOfEmptySearch() {
+        waitForElementAndClick(
+                By.xpath("//*[contains(@text,'Search Wikipedia')]"),
+                "Cannot find text Search Wikipedia",
+                5
+        );
+        String search_line = "zxcbfhydjd";
+        waitForElementAndSendKeys(
+                By.xpath("//*[contains(@text,'Search…')]"),
+                search_line,
+                "Cannot find search input",
+                5
+        );
+
+        String search_result_locator = "//*[@resource-id='org.wikipedia:id/search_results_list']/*[@resource-id='org.wikipedia:id/page_list_item_container']";
+        String search_result_labl = "//*[@text='No results found']";
+
+        waitForElementPresent(
+                By.xpath(search_result_labl),
+                "Cannot find empty result label by the request",
+                15
+        );
+        assertElementNotPresent(
+                By.xpath(search_result_locator),
+                "We have found some result by request + search_line"
+        );
+
 
     }
 
@@ -452,5 +483,12 @@ public class FirstTest {
     private int getAmountOfElements(By by) {
         List elements = driver.findElements(by);
         return elements.size();
+    }
+    private void assertElementNotPresent(By by, String error_message) {
+        int amount_of_elements = getAmountOfElements(by);
+        if (amount_of_elements > 0)  {
+            String default_message = "An element '" + by.toString() + "' to be not present";
+            throw new AssertionError(default_message + " " + error_message);
+        }
     }
 }
