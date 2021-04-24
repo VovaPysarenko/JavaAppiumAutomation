@@ -14,7 +14,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.net.URL;
 import java.util.Collection;
-import java.util.Locale;
+import java.util.List;
 
 public class FirstTest {
 
@@ -314,9 +314,34 @@ public class FirstTest {
                 "Cannot delete saved article",
                 5
         );
-
-
-
+    }
+    @Test
+    public void testAmountOfNotEmptySearch() {
+        waitForElementAndClick(
+                By.xpath("//*[contains(@text,'Search Wikipedia')]"),
+                "Cannot find text Search Wikipedia",
+                5
+        );
+        String search_line = "Linkin Park Diskography";
+        waitForElementAndSendKeys(
+                By.xpath("//*[contains(@text,'Search…')]"),
+                search_line,
+                "Cannot find search input",
+                5
+        );
+        String search_result_loator = "//*[@resource-id='org.wikipedia:id/search_results_list']/*[@resource-id='org.wikipedia:id/page_list_item_container']";
+        waitForElementPresent(
+                By.xpath(search_result_loator),
+                "Cannot find the request" + search_line,
+                30
+        );
+        int amount_search_of_result = getAmountOfElements(
+                By.xpath(search_result_loator)
+        );
+        Assert.assertTrue(
+                "We  found too few results",
+                amount_search_of_result > 0
+        );
 
     }
 
@@ -423,5 +448,9 @@ public class FirstTest {
                 .moveTo(left_x, middle_y)
                 .release()
                 .perform();
+    }
+    private int getAmountOfElements(By by) {
+        List elements = driver.findElements(by);
+        return elements.size();
     }
 }
