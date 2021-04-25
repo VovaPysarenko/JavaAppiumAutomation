@@ -38,6 +38,7 @@ public class FirstTest {
     }
 
     @After
+    public void defaultOrientation() { driver.rotate(ScreenOrientation.PORTRAIT); };
     public void tearDown() {
         driver.quit();
     }
@@ -619,6 +620,7 @@ public class FirstTest {
                 "JavaScript",
                 title
         );
+
     }
 
 
