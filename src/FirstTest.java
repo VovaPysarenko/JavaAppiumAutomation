@@ -620,7 +620,41 @@ public class FirstTest {
                 "JavaScript",
                 title
         );
+    }
 
+    @Test
+    public void testAssertElementPresent()
+    {
+        waitForElementAndClick(
+                By.xpath("//*[contains(@text, 'Search Wikipedia')]"),
+                "Can`t find search Wikipedia input",
+                10
+        );
+
+        waitForElementAndSendKeys(
+                By.xpath("//*[contains(@text, 'Search…')]"),
+                "Java",
+                "Can`t find search input",
+                10
+        );
+
+        waitForElementAndClick(
+                By.xpath("//*[@text='Java (programming language)']"),
+                "Cannot  find 'Java (programming language)' title topic searching",
+                15
+        );
+
+        String title_article = waitForElementAndGetAttribute(
+                By.id("org.wikipedia:id/view_page_title_text"),
+                "text",
+                "Can`t find article title",
+                5
+        );
+
+        Assert.assertTrue(
+                "title not contain text 'Java (programming language)'",
+                title_article.contains("Java (programming language)")
+        );
     }
 
 
