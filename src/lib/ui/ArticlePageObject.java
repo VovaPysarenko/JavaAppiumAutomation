@@ -32,6 +32,7 @@ public class ArticlePageObject extends MainPageObject {
         this.swipeUpToFindElement(By.xpath(FOOTER_ELEMENT), "Cannot find the end of the article)",  20);
     }
 
+
     public void addArticleToMyList(String name_of_folder) {
 
         this.waitForElementAndClick(
@@ -39,13 +40,6 @@ public class ArticlePageObject extends MainPageObject {
                 "Cannot find button More optional",
                 5
         );
-
-//        this.waitForElementPresent(
-//                By.xpath(OPTIONS_ADD_TO_MY_LIST_BUTTON),
-//                "Cannot wait button article to reading list",
-//                30
-//        );
-
         this.waitForElementAndClick(
                 By.xpath(OPTIONS_ADD_TO_MY_LIST_BUTTON),
                 "Cannot find optional to add article to reading list",
@@ -75,6 +69,7 @@ public class ArticlePageObject extends MainPageObject {
                 5
         );
     }
+
     public void closeArticle() {
         this.waitForElementAndClick(
                 By.xpath(CLOSE_ARTICLE_BUTTON ),

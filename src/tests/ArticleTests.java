@@ -37,4 +37,17 @@ public class ArticleTests extends CoreTestCase {
         ArticlePageObject.waitForTitleElement();
         ArticlePageObject.swipeToFooter();
     }
+
+    @Test
+    public void testAssertElementPresent() {
+        SearchPageObject SearchPageObject = new SearchPageObject(driver);
+        SearchPageObject.initSearchInput();
+        SearchPageObject.typeSearchLine("Java");
+        SearchPageObject.clickByArticleWithSubsrting("Object-oriented programming language");
+        ArticlePageObject ArticlePageObject = new ArticlePageObject(driver);
+        String title_article = ArticlePageObject.getArticleTitle();
+
+        assertTrue("title not contain text 'Java (programming language)'",
+                title_article.contains("Java (programming language)"));
+    }
 }

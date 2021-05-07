@@ -16,45 +16,6 @@ public class FirstTest extends CoreTestCase {
 
 
 
-
-    @Test
-    public void testTextIsPresent() {
-
-        MainPageObject.waitForElementAndClick(
-                By.xpath("//*[contains(@text,'Search Wikipedia')]"),
-                "Cannot find text Search Wikipedia",
-                5
-        );
-
-        MainPageObject.assertElementHasText(
-                By.id("org.wikipedia:id/search_src_text"),
-                "Search…",
-                "Cannot find text",
-                5
-        );
-    }
-    @Test
-    public void testSearchText(){
-        MainPageObject.waitForElementAndClick(
-                By.id("org.wikipedia:id/search_container"),
-                "Cannot find text Search Wikipedia",
-                5
-        );
-        MainPageObject.waitForElementAndSendKeys(
-                By.xpath(".//*[contains(@text,'Search…')]"),
-                "Swift",
-                "Cannot find search input",
-                5
-        );
-
-
-        MainPageObject.assertElementHasText(
-                By.xpath("//*[contains(@text, 'Swift') and contains(@text, 'Swift (programming language)')]"),
-                "Swift (programming language)",
-                "Cannot find text",
-                15
-        );
-    }
     @Test
     public void testTextInResultOfSearch() {
         MainPageObject.waitForElementAndClick(
